@@ -1,6 +1,7 @@
 services:
   server:
     image: reeoss/paperclipai-paperclip:latest
+    user: root
     ports:
       - "3100:3100"
     environment:
