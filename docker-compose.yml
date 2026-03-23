@@ -28,7 +28,7 @@ services:
       image: postgres:17-alpine
       environment:
           - POSTGRES_USER=root
-          - POSTGRES_PASSWORD=password
+          - POSTGRES_PASSWORD=4KbpR.YK87ju__A*f6ebqMM8NAuPRshu-_oaHvtV
           - POSTGRES_DB=paperclip
       volumes:
           - pgdata:/var/lib/postgresql/data
