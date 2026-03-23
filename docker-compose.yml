@@ -1,7 +1,14 @@
 services:
+  # Container auxiliar que "abre a porta" das pastas e depois se desativa
+  init:
+    image: busybox
+    volumes:
+      - pcp_instances:/paperclip/instances
+    command: chown -R 1000:1000 /paperclip/instances
+
   server:
     image: reeoss/paperclipai-paperclip:latest
-    user: root
+    # user: root <-- REMOVEMOS O ROOT POR SEGURANÇA AQUI
     ports:
       - "3100:3100"
     environment:
@@ -14,8 +21,11 @@ services:
     volumes:
       - pcp_instances:/paperclip/instances
     depends_on:
+      init:
+        condition: service_completed
       db:
         condition: service_healthy
+
   db:
       image: postgres:17-alpine
       environment:
@@ -29,6 +39,7 @@ services:
           interval: 5s
           timeout: 5s
           retries: 5
+
 volumes:
   pgdata:
   pcp_instances:
