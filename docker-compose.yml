@@ -3,7 +3,7 @@ services:
     image: busybox
     volumes:
       - pcp_instances:/paperclip/instances
-    command: chown -R 1000:1000 /paperclip/instances
+    command: chmod -R 777 /paperclip/instances # <-- MUDAMOS PARA 777 (TOTAL!)
 
   server:
     image: reeoss/paperclipai-paperclip:latest
