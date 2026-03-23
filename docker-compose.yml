@@ -4,11 +4,14 @@ services:
     ports:
       - "3100:3100"
     environment:
+      - PORT=3100
       - PAPERCLIP_PUBLIC_URL=${PAPERCLIP_PUBLIC_URL}
       - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - DATABASE_URL=${DATABASE_URL}
       - SERVE_UI=true
+    volumes:
+      - pcp_instances:/paperclip/instances
     depends_on:
       db:
         condition: service_healthy
@@ -27,3 +30,4 @@ services:
           retries: 5
 volumes:
   pgdata:
+  pcp_instances:
