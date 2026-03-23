@@ -1,5 +1,4 @@
 services:
-  # Container auxiliar que "abre a porta" das pastas e depois se desativa
   init:
     image: busybox
     volumes:
@@ -8,7 +7,6 @@ services:
 
   server:
     image: reeoss/paperclipai-paperclip:latest
-    # user: root <-- REMOVEMOS O ROOT POR SEGURANÇA AQUI
     ports:
       - "3100:3100"
     environment:
@@ -22,7 +20,7 @@ services:
       - pcp_instances:/paperclip/instances
     depends_on:
       init:
-        condition: service_completed
+        condition: service_completed_successfully
       db:
         condition: service_healthy
 
