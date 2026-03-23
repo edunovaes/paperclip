@@ -1,10 +1,4 @@
 services:
-  init:
-    image: busybox
-    volumes:
-      - pcp_instances:/paperclip/instances
-    command: chmod -R 777 /paperclip/instances
-
   server:
     image: reeoss/paperclipai-paperclip:latest
     ports:
@@ -16,11 +10,10 @@ services:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - DATABASE_URL=${DATABASE_URL}
       - SERVE_UI=true
+    # Pasta simples que o Coolify gerencia melhor
     volumes:
-      - pcp_instances:/paperclip/instances
+      - ./instances:/paperclip/instances
     depends_on:
-      init:
-        condition: service_completed_successfully
       db:
         condition: service_healthy
 
@@ -40,4 +33,3 @@ services:
 
 volumes:
   pgdata:
-  pcp_instances:
