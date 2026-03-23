@@ -9,28 +9,23 @@ services:
       - PAPERCLIP_PUBLIC_URL=${PAPERCLIP_PUBLIC_URL}
       - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=postgresql://root:password@db:5432/paperclip
       - SERVE_UI=true
-    # Pasta simples que o Coolify gerencia melhor
     volumes:
-      - ./instances:/paperclip/instances
+      - ./config:/paperclip/instances
+    restart: always
     depends_on:
-      db:
-        condition: service_healthy
+      - db
 
   db:
-      image: postgres:17-alpine
-      environment:
-          - POSTGRES_USER=root
-          - POSTGRES_PASSWORD=4KbpR.YK87ju__A*f6ebqMM8NAuPRshu-_oaHvtV
-          - POSTGRES_DB=paperclip
-      volumes:
-          - pgdata:/var/lib/postgresql/data
-      healthcheck:
-          test: ["CMD-SHELL", "pg_isready -U root -d paperclip"]
-          interval: 5s
-          timeout: 5s
-          retries: 5
+    image: postgres:17-alpine
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=4KbpR.YK87ju__A*f6ebqMM8NAuPRshu-_oaHvtV
+      - POSTGRES_DB=paperclip
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
 
 volumes:
   pgdata:
